@@ -1,85 +1,49 @@
-# Resource/function: IAM/role_v2
+# iam-role
 
-## Purpose
-Generic code for generating IAM role including role policy.
+This module generates an IAM role, which can be attached to various services in AWS. 
 
-## Description
-Generates a IAM role based input variables assigning role to desired service and with desired policy, for use by a aws resource. NOTE: least priviledge policies shall be used.
+## Module description
+Generates an IAM role by creating a role policy document and a role assumer document, and attaching these to a role. 
 
-## Terraform functions
+## Requires
+For all required inputs, see details on Terraform Cloud. Below are inputs that require further description
 
-### Data sources
-
-### Resources
-- `aws_iam_role`
-    - provides a iam role
-- `aws_iam_role_policy` 
-    - defines and attaches the policy document to the role
-- `aws_iam_policy_document`
-    - generates policy input based on input variables
-
-## Input variables
-### Required
-- `env`
-    - environment (dev/prod)
-- `permission_boundary`
-    - arn of permission boundary required to generate roles. 
-- `project_name`
-    - name of project - used to create resource name
-- `module_name`
-    - name of child module - used to create resource name
-- `service_to_assume_role`
-    - identifier of service to use role - accepts alias given in default_identifiers variable
-- `policy_statements`
+- permission_boundary
+    - The REG AWS account has a permission boundary connected to it. The arn of this permission boundary must be given as input to the module.
+- service_to_assume_role
+    - the role assumer document needs to know which service to be allowed to attach the role. This is passed in as service_to_assume_role, either:
+        - using the service identifier: "apigateway.amazonaws.com"
+        - or using an alias: "apigateway"
+    - a full list of available aliases is given in the `variables.tf` file of the module itself. This is also where new services may be added. 
+- policy_statements
     - list of maps including statements. each map in list creates a statement in policy.
     - syntax:
-    ```
-        [
-            {
-                sid                 = string - optional - accepts letters and number (no special characters) - defaults to ""
-                effect              = string - optional - accepts "Allow"|"Deny" - defaults to "Allow"
-                actions             = list(string) - required - multiple values accepted
-                resources           = list(string) - required - accepts resource arn - multiple values accepted
-                condition_test      = string - optional
-                condition_variable  = string - optional
-                condition_values    = list(string) - optional - multiple values accepted
-            },
-            {
-                new map in list - included in same policy
-            }
+```
+    [
+        {
+            sid                 = string - optional - accepts letters and number (no special characters) - defaults to ""
+            effect              = string - optional - accepts "Allow"|"Deny" - defaults to "Allow"
+            actions             = list(string) - required - multiple values accepted
+            resources           = list(string) - required - accepts resource arn - multiple values accepted
+            condition_test      = string - optional
+            condition_variable  = string - optional
+            condition_values    = list(string) - optional - multiple values accepted
+        },
+        {
+            new map in list - included in same policy
+        }
 
-        ]
-    ```
+    ]
+```
+    - an example is given below.
 
-### Optional (default values used unless specified)
-- `resource_tags`
-    - tags added to role - should be specified jointly with all other resources in the same module
-    - default: `"tag" = "none given"`
-- `description`
-    - description of role
-    - default: `No description given`
-- `role_assumer_actions`
-    - action controlled by the defined policy
-    - default: `["sts:AssumeRole"]`
-- `role_assumer_type`
-    - type of principal to use role
-    - default: `"Service"`
+## Usage
 
-### Helper variable
-- `default_identifiers`
-    - map containing key:value pairs where key can be used as alias for connecting policy to service. 
-
-## Output variables
-- `arn`
-    - `arn` of the generated role
-
-
-## Example use
 The below example generates a iam role as a module using the terraform scripts from `source`, giving `lambda` the permissions defined in `policy_statements`.
 ```sql
 module "iam_role_for_lambda_test" {
-    source                  = "git::https://github.com/reg-dataplatform/reg-aws-terraform-library//iam/role_v2?ref=0.44.dev"
-    env                     = var.env
+    source                  = "app.terraform.io/renovasjonsetaten/iam-role/aws"
+    version                 = "0.0.2"
     permission_boundary     = local.permission_boundary
     project_name            = var.project_name
     module_name             = "iam_role_for_lambda_test"
@@ -107,5 +71,3 @@ module "iam_role_for_lambda_test" {
         ]
 }
 ```
-
-## Further work
