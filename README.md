@@ -19,23 +19,24 @@ For all required inputs, see details on Terraform Cloud. Below are inputs that r
     - list of maps including statements. each map in list creates a statement in policy.
     - syntax:
 ```
-    [
-        {
-            sid                 = string - optional - accepts letters and number (no special characters) - defaults to ""
-            effect              = string - optional - accepts "Allow"|"Deny" - defaults to "Allow"
-            actions             = list(string) - required - multiple values accepted
-            resources           = list(string) - required - accepts resource arn - multiple values accepted
-            condition_test      = string - optional
-            condition_variable  = string - optional
-            condition_values    = list(string) - optional - multiple values accepted
-        },
-        {
-            new map in list - included in same policy
-        }
+[
+    {
+        sid                 = string - optional - accepts letters and number (no special characters) - defaults to ""
+        effect              = string - optional - accepts "Allow"|"Deny" - defaults to "Allow"
+        actions             = list(string) - required - multiple values accepted
+        resources           = list(string) - required - accepts resource arn - multiple values accepted
+        condition_test      = string - optional
+        condition_variable  = string - optional
+        condition_values    = list(string) - optional - multiple values accepted
+    },
+    {
+        new map in list - included in same policy
+    }
 
-    ]
+]
 ```
-    - an example is given below.
+
+An example is given below.
 
 ## Usage
 
