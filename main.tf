@@ -17,7 +17,8 @@ resource "aws_iam_role" "this" {
 resource "aws_iam_role_policy" "this" {
   name      = local.role_policy_name
   role      = aws_iam_role.this.id
-  policy    = data.aws_iam_policy_document.role_policy.json
+  policy    = var.policy_statements
+  #policy    = data.aws_iam_policy_document.role_policy.json
 }
 
 
@@ -32,7 +33,7 @@ data "aws_iam_policy_document" "role_assumer" {
   }
 }
 
-
+/*
 data "aws_iam_policy_document" "role_policy" {
 
   dynamic "statement" {
@@ -55,3 +56,4 @@ data "aws_iam_policy_document" "role_policy" {
     }
   }
 }
+*/
