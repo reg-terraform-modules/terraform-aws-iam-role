@@ -1,9 +1,8 @@
-
-locals {
-    role_name = join("-", [var.project_name,var.module_name,var.env])
-    role_policy_name = join("-", [var.project_name,var.module_name,"policy",var.env])
+locals { 
+    service_name     = join("_", [var.module_prefix,var.module_name])
+    role_name        = join("-", [var.project_name,local.service_name,var.env])
+    role_policy_name = join("-", [var.project_name,local.service_name,"policy",var.env])
 }
-
 
 resource "aws_iam_role" "this" {
   name               = local.role_name
@@ -13,14 +12,12 @@ resource "aws_iam_role" "this" {
   tags                 = var.resource_tags
 }
 
-
 resource "aws_iam_role_policy" "this" {
   name      = local.role_policy_name
   role      = aws_iam_role.this.id
   policy    = var.policy_statements
   #policy    = data.aws_iam_policy_document.role_policy.json
 }
-
 
 data "aws_iam_policy_document" "role_assumer" {
   statement {
@@ -55,5 +52,4 @@ data "aws_iam_policy_document" "role_policy" {
         }
     }
   }
-}
 */

@@ -27,15 +27,19 @@ variable "policy_statements" {
   description = "list of maps including statements - see README for details" 
 }
 
-
 #Optional variables - default values used unless others specified:
-
 variable "resource_tags" {
   description = "Defaults to no tags. If needed, env vars can be given in parent module variables.tf, and assigned in child module call"
   type        = map(string)
   default = {
     "tag" = "none given"
   }
+}
+
+variable "module_prefix" {
+  description = "Name of child module - used to create resource name"
+  type        = string
+  default     = "iam_role_for"
 }
 
 variable "description" {
