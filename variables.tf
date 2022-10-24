@@ -39,7 +39,7 @@ variable "resource_tags" {
 variable "module_prefix" {
   description = "Name of child module - used to create resource name"
   type        = string
-  default     = "iam_role_for"
+  default     = "iam_for"
 }
 
 variable "description" {
