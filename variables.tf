@@ -1,9 +1,3 @@
-# Required variables:
-variable "env" {
-  description = "Environment (dev/prod)"
-  type        = string
-}
-
 variable "permission_boundary" {
   type = string
 }

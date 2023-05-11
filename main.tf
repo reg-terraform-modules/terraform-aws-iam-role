@@ -1,10 +1,10 @@
 locals { 
     service_name     = join("_", [var.module_prefix,var.module_name])
-    role_name        = join("-", [var.project_name,local.service_name,var.env])
-    role_policy_name = join("-", [var.project_name,local.service_name,"policy",var.env])
+    role_name        = join("-", [var.project_name,local.service_name])
+    role_policy_name = join("-", [var.project_name,local.service_name,"policy"])
 }
 
-resource "aws_iam_role" "this" {
+resource "aws_iam_role" "this" { 
   name               = local.role_name
   assume_role_policy = data.aws_iam_policy_document.role_assumer.json
   description          = var.description
