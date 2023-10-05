@@ -1,7 +1,6 @@
 locals { 
-    service_name     = join("_", [var.module_prefix,var.module_name])
-    role_name        = join("-", [var.project_name,local.service_name])
-    role_policy_name = join("-", [var.project_name,local.service_name,"policy"])
+    role_name        = join("-", [var.module_name, "iam_role"])
+    role_policy_name = join("-", [local.role_name, "policy"])
 }
 
 resource "aws_iam_role" "this" { 
