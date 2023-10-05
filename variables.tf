@@ -2,11 +2,6 @@ variable "permission_boundary" {
   type = string
 }
 
-variable "project_name" {
-  description = "Name of project - used to create resource name"
-  type        = string
-}
-
 variable "module_name" {
   description = "Name of child module - used to create resource name"
   type        = string
