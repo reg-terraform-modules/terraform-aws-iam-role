@@ -8,8 +8,6 @@ Generates an IAM role by creating a role policy document and a role assumer docu
 ## Requires
 For all required inputs, see details on Terraform Cloud. Below are inputs that require further description
 
-- permission_boundary
-    - The REG AWS account has a permission boundary connected to it. The arn of this permission boundary must be given as input to the module.
 - service_to_assume_role
     - the role assumer document needs to know which service to be allowed to attach the role. This is passed in as service_to_assume_role, either:
         - using the service identifier: "apigateway.amazonaws.com"
@@ -45,7 +43,6 @@ The below example generates a iam role as a module using the terraform scripts f
 module "iam_role_for_lambda_test" {
     source                  = "app.terraform.io/renovasjonsetaten/iam-role/aws"
     version                 = "0.0.2"
-    permission_boundary     = local.permission_boundary
     project_name            = var.project_name
     module_name             = "iam_role_for_lambda_test"
     service_to_assume_role  = "lambda"

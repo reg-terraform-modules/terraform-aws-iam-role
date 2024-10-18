@@ -1,7 +1,3 @@
-variable "permission_boundary" {
-  type = string
-}
-
 variable "module_name" {
   description = "Name of child module - used to create resource name"
   type        = string

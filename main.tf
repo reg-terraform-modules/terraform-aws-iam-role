@@ -7,7 +7,6 @@ resource "aws_iam_role" "this" {
   name               = local.role_name
   assume_role_policy = data.aws_iam_policy_document.role_assumer.json
   description          = var.description
-  permissions_boundary = var.permission_boundary
   tags                 = var.resource_tags
 }
 
